@@ -1,0 +1,15 @@
+La idea es calcular: 
+
+TC = D*C + D*K/Q + Q*h/2
+
+Donde:
+
+TC: Costo total anual
+
+D: Demenda anual en unidades
+C: Costo por unidad
+K: Costo por preparación o colocar una orden
+R: Punto de reorden
+L: Tiempo de entrega
+Q: Volumen de la orden
+h: Costo anual de almacenaje

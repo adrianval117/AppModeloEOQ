@@ -1,0 +1,747 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/CalculateLayout"
+    android:background="@color/principalBackground"
+    android:elevation="4dp"
+    android:translationZ="10dp"
+    tools:context=".HomeFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--SPLIT-->
+        <!--SPLIT-->
+        <!--Menú, encabezados y logo (eso se simula mediante este LinearLayout-->
+        <!--SPLIT-->
+        <!--SPLIT-->
+
+        <LinearLayout
+            android:id="@+id/TopLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/principalBackground"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+        </LinearLayout>
+
+        <!--SPLIT-->
+        <!--SPLIT-->
+        <!--Aquí van los nombres de la variables-->
+        <!--SPLIT-->
+        <!--SPLIT-->
+
+        <TextView
+            android:id="@+id/TasaDemandaLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Tasa de demanda (anual)"
+            android:textColor="#616161"
+            android:textFontWeight="50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/CostoDeColocacionLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="75dp"
+            android:text="Costo de colocación de una orden"
+            android:textColor="#616161"
+            android:textFontWeight="50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/CostoTotalUnitarioLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="125dp"
+            android:text="Costo total unitario"
+            android:textColor="#616161"
+            android:textFontWeight="50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/TasaMantenimientoLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="175dp"
+            android:text="Tasa de mantenimiento"
+            android:textColor="#616161"
+            android:textFontWeight="50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+            tools:ignore="MissingConstraints" />
+
+
+        <TextView
+            android:id="@+id/diasHabilesLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="225dp"
+            android:text="Días hábiles por año"
+            android:textColor="#616161"
+            android:textFontWeight="50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/tiempoEntregaProveedorLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="275dp"
+            android:text="Tiempo de entrega proveedor"
+            android:textColor="#616161"
+            android:textFontWeight="50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+            tools:ignore="MissingConstraints" />
+
+        <!--SPLIT-->
+        <!--SPLIT-->
+        <!--Aquí empiezan los campos de datos-->
+        <!--SPLIT-->
+        <!--SPLIT-->
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/DCard"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="15dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardElevation="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+            tools:ignore="MissingConstraints">
+
+            <EditText
+                android:id="@+id/DInputText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:hint="D"
+                android:inputType="phone"
+                android:textColor="@color/black"
+                android:textColorHint="@color/hints"
+                android:textSize="18sp"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+                tools:ignore="MissingConstraints" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/SCard"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="65dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardElevation="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+            tools:ignore="MissingConstraints">
+
+            <EditText
+                android:id="@+id/SInputText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:hint="S"
+                android:inputType="phone"
+                android:textColor="@color/black"
+                android:textColorHint="@color/hints"
+                android:textSize="18sp"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+                tools:ignore="MissingConstraints" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/CCard"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="115dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardElevation="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+            tools:ignore="MissingConstraints">
+
+            <EditText
+                android:id="@+id/CInputText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:hint="C"
+                android:textColor="@color/black"
+                android:textColorHint="@color/hints"
+                android:textSize="18sp"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+                tools:ignore="MissingConstraints" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/ICard"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="165dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardElevation="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+            tools:ignore="MissingConstraints">
+
+            <EditText
+                android:id="@+id/IInputText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:hint="i"
+                android:inputType="phone"
+                android:textColor="@color/black"
+                android:textColorHint="@color/hints"
+                android:textSize="18sp"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+                tools:ignore="MissingConstraints" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/diasHabilesCard"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="215dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardElevation="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+            tools:ignore="MissingConstraints">
+
+            <EditText
+                android:id="@+id/diasHabilesInputText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:hint="Días"
+                android:inputType="phone"
+                android:textColor="@color/black"
+                android:textColorHint="@color/hints"
+                android:textSize="18sp"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+                tools:ignore="MissingConstraints" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/tiempoEntregaProveedorCard"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="265dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardElevation="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+            tools:ignore="MissingConstraints">
+
+            <EditText
+                android:id="@+id/tiempoEntregaProveedorInputText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:hint="L"
+                android:inputType="phone"
+                android:textColor="@color/black"
+                android:textColorHint="@color/hints"
+                android:textSize="18sp"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+                tools:ignore="MissingConstraints" />
+        </androidx.cardview.widget.CardView>
+
+        <!--SPLIT-->
+        <!--SPLIT-->
+        <!--Botones de ejecución-->
+        <!--SPLIT-->
+        <!--SPLIT-->
+
+
+        <TextView
+            android:id="@+id/ResultadosText"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="320dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/results_text"
+            android:textAlignment="center"
+            android:textColor="@color/resultstext"
+            android:textSize="22sp"
+            android:textStyle="bold|italic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout" />
+
+        <!--Left results-->
+
+        <TextView
+            android:id="@+id/EOQLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="370dp"
+            android:text="EOQ"
+            android:textColor="#616161"
+            android:textFontWeight="50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/CostoOrdenesLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="420dp"
+            android:text="Ordenes"
+            android:textColor="#616161"
+            android:textFontWeight="50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/CostoMantenimientoLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="470dp"
+            android:text="Mant."
+            android:textColor="#616161"
+            android:textFontWeight="50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/TRCLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="520dp"
+            android:text="TRC"
+            android:textColor="#616161"
+            android:textFontWeight="50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+            tools:ignore="MissingConstraints" />
+
+        <!--Inputs-->
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/ResultadoEOQCard"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="360dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardElevation="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.25"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+            tools:ignore="MissingConstraints">
+
+            <TextView
+                android:id="@+id/ResultadoEOQtext"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:hint="Unds"
+                android:textColor="@color/black"
+                android:textColorHint="@color/hints"
+                android:textSize="16sp"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+                tools:ignore="MissingConstraints" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/ResultadoCostoOrdenesCard"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="410dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardElevation="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.25"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+            tools:ignore="MissingConstraints">
+
+            <TextView
+                android:id="@+id/ResultadoCostoOrdenesText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:hint="$"
+                android:textColor="@color/black"
+                android:textColorHint="@color/hints"
+                android:textSize="20sp"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+                tools:ignore="MissingConstraints" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/ResultadoCostoMantenimientoCard"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="460dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardElevation="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.25"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+            tools:ignore="MissingConstraints">
+
+            <TextView
+                android:id="@+id/ResultadoCostoMantenimientoText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:hint="$"
+                android:textColor="@color/black"
+                android:textColorHint="@color/hints"
+                android:textSize="20sp"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+                tools:ignore="MissingConstraints" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/ResultadoTRCCard"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="510dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardElevation="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.25"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+            tools:ignore="MissingConstraints">
+
+            <TextView
+                android:id="@+id/ResultadoTRCText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:hint="$"
+                android:textColor="@color/black"
+                android:textColorHint="@color/hints"
+                android:textSize="20sp"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+                tools:ignore="MissingConstraints" />
+        </androidx.cardview.widget.CardView>
+
+
+        <!--Right results-->
+
+        <TextView
+            android:id="@+id/NLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="370dp"
+            android:text="N"
+            android:textColor="#616161"
+            android:textFontWeight="50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.55"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/TLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="420dp"
+            android:text="T"
+            android:textColor="#616161"
+            android:textFontWeight="50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.55"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/RLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="470dp"
+            android:text="R"
+            android:textColor="#616161"
+            android:textFontWeight="50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.55"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/PeriodoEOQLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="520dp"
+            android:text="Periodo EOQ"
+            android:textColor="#616161"
+            android:textFontWeight="50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.57"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+            tools:ignore="MissingConstraints" />
+
+        <!--Inputs-->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/ResultadoNCard"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="360dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardElevation="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+            tools:ignore="MissingConstraints">
+
+            <TextView
+                android:id="@+id/ResultadoNText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:hint="Unds"
+                android:textColor="@color/black"
+                android:textColorHint="@color/hints"
+                android:textSize="16sp"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+                tools:ignore="MissingConstraints" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/ResultadoTCard"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="410dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardElevation="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+            tools:ignore="MissingConstraints">
+
+            <TextView
+                android:id="@+id/ResultadoTText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:hint="Días"
+                android:textColor="@color/black"
+                android:textColorHint="@color/hints"
+                android:textSize="16sp"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+                tools:ignore="MissingConstraints" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/ResultadoRCard"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="460dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardElevation="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+            tools:ignore="MissingConstraints">
+
+            <TextView
+                android:id="@+id/ResultadoRText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:hint="R"
+                android:textColor="@color/black"
+                android:textColorHint="@color/hints"
+                android:textSize="16sp"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+                tools:ignore="MissingConstraints" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/ResultadoPeriodoEOQCard"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="510dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardElevation="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+            tools:ignore="MissingConstraints">
+
+            <TextView
+                android:id="@+id/ResultadoPeriodoEOQText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:hint="Días"
+                android:textColor="@color/black"
+                android:textColorHint="@color/hints"
+                android:textSize="16sp"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+                tools:ignore="MissingConstraints" />
+        </androidx.cardview.widget.CardView>
+
+        <!--<Spinner
+            android:id="@+id/userSpinner"
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="400dp"
+            android:prompt="@string/selection_user"
+            android:spinnerMode="dialog"
+            android:textFontWeight="50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"/>-->
+
+        <Button
+            android:id="@+id/calcularButton"
+            android:layout_width="114dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="570dp"
+            android:backgroundTint="@color/principalColor"
+            android:elevation="4dp"
+            android:text="@string/button_calcular_text"
+            android:textColor="@color/white"
+            android:translationZ="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.25"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+            tools:ignore="MissingConstraints" />
+
+        <Button
+            android:id="@+id/guardarButton"
+            android:layout_width="114dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="570dp"
+            android:backgroundTint="@color/red"
+            android:elevation="4dp"
+            android:text="@string/button_guardar_text"
+            android:textColor="@color/white"
+            android:translationZ="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.75"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
+            tools:ignore="MissingConstraints" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.drawerlayout.widget.DrawerLayout>
