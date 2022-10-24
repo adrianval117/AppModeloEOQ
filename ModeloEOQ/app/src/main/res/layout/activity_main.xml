@@ -37,8 +37,7 @@
                 android:src="@drawable/ic_baseline_menu_24"
                 app:layout_constraintEnd_toStartOf="@+id/imageView"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/white">
-            </ImageView>
+                app:tint="@color/white"></ImageView>
 
             <ImageView
                 android:id="@+id/imageView"
@@ -55,8 +54,8 @@
                 android:id="@+id/header_title"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
-                android:layout_marginTop="20dp"
                 android:layout_marginStart="25dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="10dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/app_name"
@@ -72,16 +71,16 @@
         </LinearLayout>
 
         <fragment
+            android:id="@+id/navHostFragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:id="@+id/navHostFragment"
             app:defaultNavHost="true"
-            app:layout_constraintTop_toBottomOf="@+id/mainHeader"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:navGraph="@navigation/main"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainHeader"
+            app:navGraph="@navigation/main" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -91,8 +90,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/header"
-        app:menu="@menu/main_menu"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="parent" />
+        app:layout_constraintTop_toBottomOf="parent"
+        app:menu="@menu/main_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

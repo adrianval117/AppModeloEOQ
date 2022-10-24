@@ -46,12 +46,8 @@ public class MainActivity<val> extends AppCompatActivity {
         //Defición de variables
         drawerLayout = findViewById(R.id.mainDrawerLayout);
         navigationView = findViewById(R.id.barra_navegacion);
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
         navController = Navigation.findNavController(this, R.id.navHostFragment);
         menu = findViewById(R.id.menu_image);
-
-        drawerLayout.addDrawerListener(drawerToggle);
-        drawerToggle.syncState();
         navigationView.setItemIconTintList(null);
 
         menu.setOnClickListener(new View.OnClickListener(){
@@ -62,7 +58,6 @@ public class MainActivity<val> extends AppCompatActivity {
         });
 
         NavigationUI.setupWithNavController(navigationView, navController);
-
     }
 
 }
