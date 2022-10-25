@@ -107,12 +107,15 @@ public class HomeFragment extends Fragment {
         //Answer
         Double EOQ;
         EOQ = D*S;
-        ResultadoEOQtext.setText(HtmlCompat.fromHtml(Double.toString(EOQ), HtmlCompat.FROM_HTML_MODE_LEGACY
+
+        //Convert answers to strings
+        String EOQ_str = Double.toString(EOQ);
+        ResultadoEOQtext.setText(HtmlCompat.fromHtml(EOQ_str, HtmlCompat.FROM_HTML_MODE_LEGACY
         ));
 
         //Guardar en dispositivo
-        //List<String> dataList = new ArrayList<String>();
-        //dataList.add(dInput_str+";"+sInput_str+";"+Double.toString(EOQ));
+        List<String> dataList = new ArrayList<String>();
+        dataList.add(dInput_str+";"+sInput_str+";"+EOQ_str);
 
         /*exportDataIntoWorkbook(Contexter.getcontext(),
                 "TEST_SAVED", dataList);*/
