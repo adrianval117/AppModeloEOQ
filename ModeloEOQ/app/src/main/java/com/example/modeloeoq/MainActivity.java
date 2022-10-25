@@ -6,13 +6,17 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +33,8 @@ public class MainActivity<val> extends AppCompatActivity {
     ActionBarDrawerToggle drawerToggle;
     ImageView menu;
     NavController navController;
+
+    Button calculate;
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -47,8 +53,9 @@ public class MainActivity<val> extends AppCompatActivity {
         drawerLayout = findViewById(R.id.mainDrawerLayout);
         navigationView = findViewById(R.id.barra_navegacion);
         navController = Navigation.findNavController(this, R.id.navHostFragment);
-        menu = findViewById(R.id.menu_image);
         navigationView.setItemIconTintList(null);
+        //Botones
+        menu = findViewById(R.id.menu_image);
 
         menu.setOnClickListener(new View.OnClickListener(){
            @Override
@@ -60,4 +67,14 @@ public class MainActivity<val> extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 
+
+
+    @Override
+    public void onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else{
+            super.onBackPressed();
+        }
+    }
 }

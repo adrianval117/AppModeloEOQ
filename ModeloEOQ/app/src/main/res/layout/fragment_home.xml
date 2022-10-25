@@ -209,6 +209,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:hint="C"
+                android:inputType="phone"
                 android:textColor="@color/black"
                 android:textColorHint="@color/hints"
                 android:textSize="18sp"
@@ -708,14 +709,14 @@
             app:layout_constraintTop_toBottomOf="@+id/toolbar"/>-->
 
         <Button
-            android:id="@+id/calcularButton"
+            android:id="@+id/calculateButton"
             android:layout_width="114dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="570dp"
+            android:layout_marginTop="600dp"
             android:backgroundTint="@color/principalColor"
             android:elevation="4dp"
-            android:text="@string/button_calcular_text"
+            android:text="@string/button_calculate_text"
             android:textColor="@color/white"
             android:translationZ="10dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -725,14 +726,14 @@
             tools:ignore="MissingConstraints" />
 
         <Button
-            android:id="@+id/guardarButton"
+            android:id="@+id/eraseButton"
             android:layout_width="114dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="570dp"
+            android:layout_marginTop="600dp"
             android:backgroundTint="@color/red"
             android:elevation="4dp"
-            android:text="@string/button_guardar_text"
+            android:text="@string/button_erase_text"
             android:textColor="@color/white"
             android:translationZ="10dp"
             app:layout_constraintEnd_toEndOf="parent"

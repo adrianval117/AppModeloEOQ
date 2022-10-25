@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Control de\n inventario</string>
     <string name="results_text">Resultados obtenidos</string>
-    <string name="button_calcular_text">Calcular</string>
-    <string name="button_guardar_text">Guardar</string>
+    <string name="button_calculate_text">Calcular</string>
+    <string name="button_erase_text">Borrar</string>
     <string name="open">Abrir barra de navegación</string>
     <string name="close">Cerrar barra de navegación</string>
     <!-- TODO: Remove or change this placeholder text -->
