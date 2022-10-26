@@ -58,11 +58,13 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-    EditText DInput, SInput;
-    TextView ResultadoEOQtext;
+    EditText DInput, SInput, CInput, iInput, diasInput, LInput;
+    TextView ResultadoEOQText, ResultadoOrdenesText, ResultadoCostoMantenimientoText, ResultadoTRCText;
+    TextView ResultadoNText, ResultadoTText, ResultadoRText, ResultadoPeriodoEOQText;
     CSVWriter csvWriter;
     private HomeFragment ExcelUtils;
     private String csv = "/storage/emulated/0/Android/data/com.example.modeloeoq/data/data.csv";
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -87,14 +89,24 @@ public class HomeFragment extends Fragment {
         final View erase = view.findViewById(R.id.eraseButton);
         DInput = (EditText) view.findViewById(R.id.DInputText);
         SInput = (EditText) view.findViewById(R.id.SInputText);
-        ResultadoEOQtext = (TextView) view.findViewById(R.id.ResultadoEOQtext);
+        CInput = (EditText) view.findViewById(R.id.CInputText);
+        iInput = (EditText) view.findViewById(R.id.IInputText);
+        diasInput = (EditText) view.findViewById(R.id.diasHabilesInputText);
+        LInput = (EditText) view.findViewById(R.id.tiempoEntregaProveedorInputText);
+        ResultadoEOQText = (TextView) view.findViewById(R.id.ResultadoEOQtext);
+        ResultadoOrdenesText = (TextView) view.findViewById(R.id.ResultadoCostoOrdenesText);
+        ResultadoCostoMantenimientoText = (TextView) view.findViewById(R.id.ResultadoCostoMantenimientoText);
+        ResultadoTRCText = (TextView) view.findViewById(R.id.ResultadoTRCText);
+        ResultadoNText = (TextView) view.findViewById(R.id.ResultadoNText);
+        ResultadoTText = (TextView) view.findViewById(R.id.ResultadoTText);
+        ResultadoRText = (TextView) view.findViewById(R.id.ResultadoRText);
+        ResultadoPeriodoEOQText = (TextView) view.findViewById(R.id.ResultadoPeriodoEOQText);
 
         //Button to calculate
         View.OnClickListener calulator = v -> {
             if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 //When permission to write storage is granted
-                Toast.makeText(getActivity(), "Calculando...", Toast.LENGTH_SHORT).show();
-                calulateEOQ();
+                checkEditsFields();
             } else {
                 //When permission denied
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 44);
@@ -113,30 +125,56 @@ public class HomeFragment extends Fragment {
     private void cleanInputs() {
         DInput.setText("");
         SInput.setText("");
-        ResultadoEOQtext.setText("");
+        CInput.setText("");
+        iInput.setText("");
+        diasInput.setText("");
+        LInput.setText("");
+        ResultadoEOQText.setText("");
+        ResultadoCostoMantenimientoText.setText("");
     }
 
-    public void calulateEOQ() {
+    public void checkEditsFields() {
         //Getting values from the inputs
         String dInput_str = DInput.getText().toString();
         String sInput_str = SInput.getText().toString();
-        Double D = Double.parseDouble(dInput_str);
-        Double S = Double.parseDouble(sInput_str);
+        String CInput_str = CInput.getText().toString();
+        String iInput_str = iInput.getText().toString();
+        String diasInput_str = diasInput.getText().toString();
+        String LInput_str = LInput.getText().toString();
+        if (dInput_str.matches("") || sInput_str.matches("")){
+            Toast.makeText(getActivity(), "Se deben llenar todos los campos", Toast.LENGTH_SHORT).show();
+        }else{
+            Double D = Double.parseDouble(dInput_str);
+            Double S = Double.parseDouble(sInput_str);
+            /*Double C = Double.parseDouble(CInput_str);
+            Double i = Double.parseDouble(iInput_str);
+            Double dias = Double.parseDouble(diasInput_str);
+            Double tiempoEntrega = Double.parseDouble(LInput_str);*/
+            calulateEOQ(D, S);
+        }
+    }
+
+    public void calulateEOQ(Double D, Double S) {
+        //If it makit till here, then it's ready to calculate
+        Toast.makeText(getActivity(), "Calculando...", Toast.LENGTH_SHORT).show();
 
         //Answers
         Double EOQ;
         EOQ = D * S;
 
         //Convert answers to strings
+        String dInput_str = Double.toString(D);
+        String sInput_str = Double.toString(S);
         String EOQ_str = Double.toString(EOQ);
-        ResultadoEOQtext.setText(HtmlCompat.fromHtml(EOQ_str, HtmlCompat.FROM_HTML_MODE_LEGACY
+        ResultadoEOQText.setText(HtmlCompat.fromHtml(EOQ_str, HtmlCompat.FROM_HTML_MODE_LEGACY
+        ));
+        ResultadoOrdenesText.setText(HtmlCompat.fromHtml(EOQ_str, HtmlCompat.FROM_HTML_MODE_LEGACY
         ));
 
-        //Currente date
+        //Current date
         Date currentTime = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
         String currentDatetime = dateFormat.format(currentTime);
-
 
         //Save inputs and results into a list
         List<String> dataList = new ArrayList<String>();
