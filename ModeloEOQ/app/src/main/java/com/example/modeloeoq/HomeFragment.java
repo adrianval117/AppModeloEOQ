@@ -34,16 +34,35 @@ import org.apache.poi.ss.usermodel.Workbook;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+
+import com.opencsv.CSVWriter;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+
 
 public class HomeFragment extends Fragment {
 
-
     EditText DInput, SInput;
     TextView ResultadoEOQtext;
+    CSVWriter csvWriter;
+    private HomeFragment ExcelUtils;
+    private String csv = "/storage/emulated/0/Android/data/com.example.modeloeoq/data/data.csv";
 
     public HomeFragment() {
         // Required empty public constructor
@@ -55,7 +74,7 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         return view;
@@ -97,29 +116,95 @@ public class HomeFragment extends Fragment {
         ResultadoEOQtext.setText("");
     }
 
-    public void calulateEOQ(){
+    public void calulateEOQ() {
         //Getting values from the inputs
         String dInput_str = DInput.getText().toString();
         String sInput_str = SInput.getText().toString();
         Double D = Double.parseDouble(dInput_str);
         Double S = Double.parseDouble(sInput_str);
 
-        //Answer
+        //Answers
         Double EOQ;
-        EOQ = D*S;
+        EOQ = D * S;
 
         //Convert answers to strings
         String EOQ_str = Double.toString(EOQ);
         ResultadoEOQtext.setText(HtmlCompat.fromHtml(EOQ_str, HtmlCompat.FROM_HTML_MODE_LEGACY
         ));
 
-        //Guardar en dispositivo
-        List<String> dataList = new ArrayList<String>();
-        dataList.add(dInput_str+";"+sInput_str+";"+EOQ_str);
+        //Currente date
+        Date currentTime = Calendar.getInstance().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+        String currentDatetime = dateFormat.format(currentTime);
 
-        /*exportDataIntoWorkbook(Contexter.getcontext(),
-                "TEST_SAVED", dataList);*/
+
+        //Save inputs and results into a list
+        List<String> dataList = new ArrayList<String>();
+        dataList.add(currentDatetime + ";" + dInput_str + ";" + sInput_str + ";" + EOQ_str);
+
+        if (!isExternalStorageAvailable() || isExternalStorageReadOnly()) {
+            Log.e("TAG", "External storage not available or it's just readeble");
+        }
+
+        //To save with csv
+        createFiles();
+        boolean isFileCreated = createFiles();
+        Log.e("TAG", "CSV file was created succesfully: "+currentDatetime);
+        writeCSV(dataList);
+
+        //To save with excel
+        /*boolean isExcelGenerated = ExcelUtils.exportDataIntoWorkbook(getActivity(),
+                "EXCEL_FILE_NAME.xlsx", dataList);
+        Log.e("TAG", "Excel saved in storage succesfully. "+isExcelGenerated);*/
     }
+
+
+    /**
+     * METHOD TO SAVE USING CSV
+     */
+
+    private boolean createFiles() {
+        boolean isSucces = false;
+        File outFile = new File(getActivity().getExternalFilesDir(null).getParent(), "data");
+        try {
+            if (!outFile.exists()) {
+                outFile.mkdirs();
+                //It is saved in /data due to csv
+                csvWriter = new CSVWriter(new FileWriter(csv));
+                String[] headerRow = new String[]{"Fecha del calculo",
+                        "Tasa de demanda (D)",
+                        "Costo de colocacion de una orden (S)",
+                        "EOQ"};
+                csvWriter.writeNext(headerRow);
+                csvWriter.close();
+                isSucces = true;
+                Log.e("TAG", "CSV file was generated succesfully.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return isSucces;
+    }
+
+    private void writeCSV(List<String> dataList) {
+        try {
+            File file = new File(csv);
+            FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(String.valueOf(dataList.get(0).split(";")[0] + ","
+                    + dataList.get(0).split(";")[1] + ","
+                    + dataList.get(0).split(";")[2] + ","
+                    + dataList.get(0).split(";")[3] + "\n"));
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * METHOD TO SAVE USING EXCEL
+     */
+
 
     private static Cell cell;
     private static Sheet sheet;
@@ -131,7 +216,7 @@ public class HomeFragment extends Fragment {
 
         // Check if available and not read only
         if (!isExternalStorageAvailable() || isExternalStorageReadOnly()) {
-            Log.e("TAG", "Storage not available or read only");
+            Log.e("TAG", "External storage not available or it's just readeble");
             return false;
         }
 
@@ -139,7 +224,6 @@ public class HomeFragment extends Fragment {
         workbook = new HSSFWorkbook();
 
         setHeaderCellStyle();
-
         // Creating a New Sheet and Setting width for each column
         sheet = workbook.createSheet(fileName);
         sheet.setColumnWidth(0, (15 * 400));
@@ -148,34 +232,38 @@ public class HomeFragment extends Fragment {
 
         setHeaderRow();
         fillDataIntoExcel(dataList);
-        isWorkbookWrittenIntoStorage = storeExcelInStorage(Contexter.getcontext(), fileName);
+        isWorkbookWrittenIntoStorage = storeExcelInStorage(context, fileName);
+        //isWorkbookWrittenIntoStorage = true;
 
         return isWorkbookWrittenIntoStorage;
     }
 
-    /**
+    /*
      * Checks if Storage is READ-ONLY
      *
      * @return boolean
      */
+
     private static boolean isExternalStorageReadOnly() {
         String externalStorageState = Environment.getExternalStorageState();
         return Environment.MEDIA_MOUNTED_READ_ONLY.equals(externalStorageState);
     }
 
-    /**
+    /*
      * Checks if Storage is Available
      *
      * @return boolean
      */
+
     private static boolean isExternalStorageAvailable() {
         String externalStorageState = Environment.getExternalStorageState();
         return Environment.MEDIA_MOUNTED.equals(externalStorageState);
     }
 
-    /**
+    /*
      * Setup header cell style
      */
+
     public static void setHeaderCellStyle() {
         headerCellStyle = workbook.createCellStyle();
         headerCellStyle.setFillForegroundColor(HSSFColor.AQUA.index);
@@ -183,9 +271,10 @@ public class HomeFragment extends Fragment {
         headerCellStyle.setAlignment(CellStyle.ALIGN_CENTER);
     }
 
-    /**
+    /*
      * Setup Header Row
      */
+
     private static void setHeaderRow() {
         Row headerRow = sheet.createRow(0);
 
@@ -194,16 +283,15 @@ public class HomeFragment extends Fragment {
         cell.setCellStyle(headerCellStyle);
 
         cell = headerRow.createCell(1);
-        cell.setCellValue("Caosto de colocación de una orden (S)");
+        cell.setCellValue("Costo de colocación de una orden (S)");
         cell.setCellStyle(headerCellStyle);
 
         cell = headerRow.createCell(2);
         cell.setCellValue("EOQ");
         cell.setCellStyle(headerCellStyle);
-
     }
 
-    /**
+    /*
      * Fills Data into Excel Sheet
      * <p>
      * NOTE: Set row index as i+1 since 0th index belongs to header row
@@ -224,27 +312,28 @@ public class HomeFragment extends Fragment {
             cell.setCellValue(dataList.get(i).split(";")[1]);
 
             cell = rowData.createCell(2);
-            cell.setCellValue(dataList.get(i).split(";")[3]);
-
+            cell.setCellValue(dataList.get(i).split(";")[2]);
+            Log.e("TAG", "Filling the excel with the data succesfully!");
         }
     }
 
-    /**
+    /*
      * Store Excel Workbook in external storage
      *
      * @param context  - application context
      * @param fileName - name of workbook which will be stored in device
      * @return boolean - returns state whether workbook is written into storage or not
      */
+
     private static boolean storeExcelInStorage(Context context, String fileName) {
         boolean isSuccess;
+
         File file = new File(context.getExternalFilesDir(null), fileName);
         FileOutputStream fileOutputStream = null;
-
         try {
             fileOutputStream = new FileOutputStream(file);
             workbook.write(fileOutputStream);
-            Log.e("TAG", "Writing file" + file);
+            Log.e("TAG", "Writing file..." + file);
             isSuccess = true;
         } catch (IOException e) {
             Log.e("TAG", "Error writing Exception: ", e);
@@ -263,4 +352,5 @@ public class HomeFragment extends Fragment {
         }
         return isSuccess;
     }
+
 }
