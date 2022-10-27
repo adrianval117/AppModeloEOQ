@@ -17,9 +17,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import org.apache.poi.hpsf.Constants;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -61,7 +64,10 @@ public class HomeFragment extends Fragment {
     EditText DInput, SInput, CInput, iInput, diasInput, LInput;
     TextView ResultadoEOQText, ResultadoOrdenesText, ResultadoCostoMantenimientoText, ResultadoTRCText;
     TextView ResultadoNText, ResultadoTText, ResultadoRText, ResultadoPeriodoEOQText;
+    TextView tasaMantenimientoLabel;
     CSVWriter csvWriter;
+    Switch cancelIC;
+    Boolean isCheckedOn;
     private HomeFragment ExcelUtils;
     private String csv = "/storage/emulated/0/Android/data/com.example.modeloeoq/data/data.csv";
 
@@ -85,6 +91,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        cancelIC = (Switch) view.findViewById(R.id.swNoiC);
         final View calculate = view.findViewById(R.id.calculateButton);
         final View erase = view.findViewById(R.id.eraseButton);
         DInput = (EditText) view.findViewById(R.id.DInputText);
@@ -101,6 +108,20 @@ public class HomeFragment extends Fragment {
         ResultadoTText = (TextView) view.findViewById(R.id.ResultadoTText);
         ResultadoRText = (TextView) view.findViewById(R.id.ResultadoRText);
         ResultadoPeriodoEOQText = (TextView) view.findViewById(R.id.ResultadoPeriodoEOQText);
+        tasaMantenimientoLabel = (TextView) view.findViewById(R.id.TasaMantenimientoLabel);
+
+        //Check if C or i are present
+        isCheckedOn = false;
+        CompoundButton.OnCheckedChangeListener sw = (View, isChecked) -> {
+            if (isChecked) {
+                isCheckedOn = true;
+                Toast.makeText(getActivity(), "La tasa de mantenimiento no está habilitada", Toast.LENGTH_SHORT).show();
+            } else {
+                isCheckedOn = false;
+                Toast.makeText(getActivity(), "La tasa de mantenimiento está habilitada", Toast.LENGTH_SHORT).show();
+            }
+            chekModeiC();
+        };
 
         //Button to calculate
         View.OnClickListener calulator = v -> {
@@ -113,13 +134,14 @@ public class HomeFragment extends Fragment {
             }
         };
 
-        //Button to calculate
+        //Button to erase the data
         View.OnClickListener eraser = v -> {
             cleanInputs();
         };
 
-        erase.setOnClickListener(eraser);
+        cancelIC.setOnCheckedChangeListener(sw);
         calculate.setOnClickListener(calulator);
+        erase.setOnClickListener(eraser);
     }
 
     private void cleanInputs() {
@@ -130,7 +152,28 @@ public class HomeFragment extends Fragment {
         diasInput.setText("");
         LInput.setText("");
         ResultadoEOQText.setText("");
+        ResultadoOrdenesText.setText("");
         ResultadoCostoMantenimientoText.setText("");
+        ResultadoTRCText.setText("");
+        ResultadoNText.setText("");
+        ResultadoTText.setText("");
+        ResultadoRText.setText("");
+        ResultadoPeriodoEOQText.setText("");
+    }
+
+    public void chekModeiC(){
+        //If the no C mode is switched, set C = 0 and change the label to H ($) mode
+        if(isCheckedOn){
+            CInput.setText("0");
+            CInput.setFocusable(false);
+            tasaMantenimientoLabel.setText("Costo de mantenimiento anual");
+            iInput.setHint("H ($)");
+        }else{
+            CInput.setText("");
+            CInput.setFocusableInTouchMode(true);
+            tasaMantenimientoLabel.setText("Tasa de mantenimiento");
+            iInput.setHint("i");
+        }
     }
 
     public void checkEditsFields() {
@@ -141,26 +184,38 @@ public class HomeFragment extends Fragment {
         String iInput_str = iInput.getText().toString();
         String diasInput_str = diasInput.getText().toString();
         String LInput_str = LInput.getText().toString();
-        if (dInput_str.matches("") || sInput_str.matches("")){
+
+        if (dInput_str.matches("") || sInput_str.matches("") ||
+                CInput_str.matches("") || iInput_str.matches("")){
             Toast.makeText(getActivity(), "Se deben llenar todos los campos", Toast.LENGTH_SHORT).show();
         }else{
             Double D = Double.parseDouble(dInput_str);
             Double S = Double.parseDouble(sInput_str);
-            /*Double C = Double.parseDouble(CInput_str);
+            Double C = Double.parseDouble(CInput_str);
             Double i = Double.parseDouble(iInput_str);
-            Double dias = Double.parseDouble(diasInput_str);
+            /*Double dias = Double.parseDouble(diasInput_str);
             Double tiempoEntrega = Double.parseDouble(LInput_str);*/
-            calulateEOQ(D, S);
+            calulateEOQ(D, S, C, i);
         }
     }
 
-    public void calulateEOQ(Double D, Double S) {
+    public void calulateEOQ(Double D, Double S, Double C, Double i) {
+
         //If it makit till here, then it's ready to calculate
         Toast.makeText(getActivity(), "Calculando...", Toast.LENGTH_SHORT).show();
 
         //Answers
-        Double EOQ;
-        EOQ = D * S;
+        /*If you are not given the unit cost (C), you must enter a 0 in the field.
+        In addition, the field associated with the maintenance rate (i) must be changed
+        to the cost of the maintenance (H) in monetary units*/
+        Double H;
+        if(isCheckedOn){
+            H = i;
+        }else{
+            H = C*i;
+        }
+        Double EOQ = Math.pow((2*D*S)/H, 0.5);
+        Log.e("EOQ: ", ""+EOQ);
 
         //Convert answers to strings
         String dInput_str = Double.toString(D);
