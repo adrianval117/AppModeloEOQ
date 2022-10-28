@@ -38,6 +38,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -171,7 +172,7 @@ public class HomeFragment extends Fragment {
         }else{
             CInput.setText("");
             CInput.setFocusableInTouchMode(true);
-            tasaMantenimientoLabel.setText("Tasa de mantenimiento");
+            tasaMantenimientoLabel.setText("Tasa de mantenimiento (%)");
             iInput.setHint("i");
         }
     }
@@ -186,20 +187,21 @@ public class HomeFragment extends Fragment {
         String LInput_str = LInput.getText().toString();
 
         if (dInput_str.matches("") || sInput_str.matches("") ||
-                CInput_str.matches("") || iInput_str.matches("")){
+                CInput_str.matches("") || iInput_str.matches("") ||
+                diasInput_str.matches("") || LInput_str.matches("")){
             Toast.makeText(getActivity(), "Se deben llenar todos los campos", Toast.LENGTH_SHORT).show();
         }else{
             Double D = Double.parseDouble(dInput_str);
             Double S = Double.parseDouble(sInput_str);
             Double C = Double.parseDouble(CInput_str);
             Double i = Double.parseDouble(iInput_str);
-            /*Double dias = Double.parseDouble(diasInput_str);
-            Double tiempoEntrega = Double.parseDouble(LInput_str);*/
-            calulateEOQ(D, S, C, i);
+            Double diasLaborales = Double.parseDouble(diasInput_str);
+            Double L = Double.parseDouble(LInput_str);
+            calulateEOQ(D, S, C, i, diasLaborales, L);
         }
     }
 
-    public void calulateEOQ(Double D, Double S, Double C, Double i) {
+    public void calulateEOQ(Double D, Double S, Double C, Double i, Double diasLaborales, Double L) {
 
         //If it makit till here, then it's ready to calculate
         Toast.makeText(getActivity(), "Calculando...", Toast.LENGTH_SHORT).show();
@@ -213,27 +215,72 @@ public class HomeFragment extends Fragment {
             H = i;
         }else{
             H = C*i;
+            Log.e("", ""+H);
         }
-        Double EOQ = Math.pow((2*D*S)/H, 0.5);
-        Log.e("EOQ: ", ""+EOQ);
+
+        //Left columns results
+        Double EOQ = Math.ceil(Math.pow((2*D*S)/H, 0.5));
+        Double ordenes = D*S/EOQ;
+        Double mant = EOQ*H/2;
+        Double TRC = D*C + mant + ordenes;
+
+        //Right columns results
+        Double N = Math.ceil(D/EOQ);
+        Double T = Math.ceil(diasLaborales/N);;
+        Double d = Math.ceil(D/diasLaborales);
+        Double R = Math.ceil(d*L);
+        Double periodoEOQ = EOQ/d;
 
         //Convert answers to strings
+        //inputs
         String dInput_str = Double.toString(D);
         String sInput_str = Double.toString(S);
-        String EOQ_str = Double.toString(EOQ);
-        ResultadoEOQText.setText(HtmlCompat.fromHtml(EOQ_str, HtmlCompat.FROM_HTML_MODE_LEGACY
+        String CInput_str = Double.toString(C);
+        String iInput_str = Double.toString(i);
+        String diasInput_str = Double.toString(diasLaborales);
+        String LInput_str = Double.toString(L);
+        String hInput_str = Double.toString(H);
+
+        //Results
+        DecimalFormat round = new DecimalFormat("0.00");
+        String EOQ_str = Integer.toString(EOQ.intValue());
+        String ordenes_str = Double.toString(Double.parseDouble(round.format(ordenes)));
+        String mant_str = Double.toString(Double.parseDouble(round.format(mant)));
+        String TRC_str = Double.toString(Double.parseDouble(round.format(TRC)));
+        String N_str = Integer.toString(N.intValue());
+        String T_str = Integer.toString(T.intValue());
+        String R_str = Integer.toString(R.intValue());
+        String periodoEOQ_str = Integer.toString(periodoEOQ.intValue());
+
+        //Show results in the TextViews
+        ResultadoEOQText.setText(HtmlCompat.fromHtml(EOQ_str+" unds", HtmlCompat.FROM_HTML_MODE_LEGACY
         ));
-        ResultadoOrdenesText.setText(HtmlCompat.fromHtml(EOQ_str, HtmlCompat.FROM_HTML_MODE_LEGACY
+        ResultadoOrdenesText.setText(HtmlCompat.fromHtml("$"+ordenes_str, HtmlCompat.FROM_HTML_MODE_LEGACY
+        ));
+        ResultadoCostoMantenimientoText.setText(HtmlCompat.fromHtml("$"+mant_str, HtmlCompat.FROM_HTML_MODE_LEGACY
+        ));
+        ResultadoTRCText.setText(HtmlCompat.fromHtml("$"+TRC_str, HtmlCompat.FROM_HTML_MODE_LEGACY
+        ));
+        ResultadoNText.setText(HtmlCompat.fromHtml(N_str+" unds", HtmlCompat.FROM_HTML_MODE_LEGACY
+        ));
+        ResultadoTText.setText(HtmlCompat.fromHtml(T_str+" días", HtmlCompat.FROM_HTML_MODE_LEGACY
+        ));
+        ResultadoRText.setText(HtmlCompat.fromHtml(R_str+" unds", HtmlCompat.FROM_HTML_MODE_LEGACY
+        ));
+        ResultadoPeriodoEOQText.setText(HtmlCompat.fromHtml(periodoEOQ_str+" días", HtmlCompat.FROM_HTML_MODE_LEGACY
         ));
 
-        //Current date
+        //Get current date to save record in the CSV
         Date currentTime = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
         String currentDatetime = dateFormat.format(currentTime);
 
         //Save inputs and results into a list
         List<String> dataList = new ArrayList<String>();
-        dataList.add(currentDatetime + ";" + dInput_str + ";" + sInput_str + ";" + EOQ_str);
+        dataList.add(currentDatetime + ";" + dInput_str + ";" + sInput_str + ";" + CInput_str + ";" //Inputs
+                    +iInput_str + ";" + hInput_str + ";" + diasInput_str + ";" + LInput_str + ";"
+                    +EOQ_str + ";" + ordenes_str + ";" + mant_str + ";" + TRC_str + ";" //Outputs
+                    +N_str + ";" + T_str + ";" + R_str + ";" + periodoEOQ_str);
 
         if (!isExternalStorageAvailable() || isExternalStorageReadOnly()) {
             Log.e("TAG", "External storage not available or it's just readeble");
@@ -242,13 +289,7 @@ public class HomeFragment extends Fragment {
         //To save with csv
         createFiles();
         boolean isFileCreated = createFiles();
-        Log.e("TAG", "CSV file was created succesfully: "+currentDatetime);
         writeCSV(dataList);
-
-        //To save with excel
-        /*boolean isExcelGenerated = ExcelUtils.exportDataIntoWorkbook(getActivity(),
-                "EXCEL_FILE_NAME.xlsx", dataList);
-        Log.e("TAG", "Excel saved in storage succesfully. "+isExcelGenerated);*/
     }
 
 
@@ -265,9 +306,21 @@ public class HomeFragment extends Fragment {
                 //It is saved in /data due to csv
                 csvWriter = new CSVWriter(new FileWriter(csv));
                 String[] headerRow = new String[]{"Fecha del calculo",
-                        "Tasa de demanda (D)",
+                        "Tasa de demanda (D)",                      //Inputs
                         "Costo de colocacion de una orden (S)",
-                        "EOQ"};
+                        "Costo total unitario (C)",
+                        "Tasa de mantenimiento (i)",
+                        "Costo anual de mantenimiento (H)",
+                        "Dias habiles anuales",
+                        "Tiempo de entrega proveedor (L)",
+                        "EOQ",                                      //Outputs
+                        "Costo anual de colocar ordenes (Ordenes)",
+                        "Costo anual de mantenimiento de invetario (Mant.)",
+                        "Costo total relevante (TRC)",
+                        "Numero de ordenes colocadas anuales (N)",
+                        "Tiempo entre cada orden (T)",
+                        "Punto de reorden (R)",
+                        "Periodo de consumo del EOQ"};
                 csvWriter.writeNext(headerRow);
                 csvWriter.close();
                 isSucces = true;
@@ -284,10 +337,30 @@ public class HomeFragment extends Fragment {
             File file = new File(csv);
             FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
             BufferedWriter bw = new BufferedWriter(fw);
+            String a, b;
+            if(isCheckedOn){
+                a = "N/A";
+                b = "N/A";
+            }else{
+                a = dataList.get(0).split(";")[3];
+                b = dataList.get(0).split(";")[4];
+            }
             bw.write(String.valueOf(dataList.get(0).split(";")[0] + ","
-                    + dataList.get(0).split(";")[1] + ","
+                    + dataList.get(0).split(";")[1] + ","       //Inputs
                     + dataList.get(0).split(";")[2] + ","
-                    + dataList.get(0).split(";")[3] + "\n"));
+                    + a + ","
+                    + b + ","
+                    + dataList.get(0).split(";")[5] + ","
+                    + dataList.get(0).split(";")[6] + ","
+                    + dataList.get(0).split(";")[7] + ","       //Ouputs
+                    + dataList.get(0).split(";")[8] + ","
+                    + dataList.get(0).split(";")[9] + ","
+                    + dataList.get(0).split(";")[10] + ","
+                    + dataList.get(0).split(";")[11] + ","
+                    + dataList.get(0).split(";")[12] + ","
+                    + dataList.get(0).split(";")[13] + ","
+                    + dataList.get(0).split(";")[14] + ","
+                    + dataList.get(0).split(";")[15] + "\n"));
             bw.close();
         } catch (IOException e) {
             e.printStackTrace();

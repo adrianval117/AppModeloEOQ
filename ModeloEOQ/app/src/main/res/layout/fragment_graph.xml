@@ -36,20 +36,52 @@
         <!--SPLIT-->
         <!--SPLIT-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:textSize="30dp"
-            android:textAlignment="center"
-            android:layout_gravity="center"
-            android:textColor="@color/black"
-            android:text="HEY IT'S THE GRAPHICS"
-            android:id="@+id/GRAPHIC"
-            app:layout_constraintTop_toTopOf="@+id/TopLinearLayout"
+        <ImageView
+            android:id="@+id/progessImage"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="100dp"
+            android:src="@drawable/under2"
+            app:layout_constraintTop_toBottomOf="@+id/progessText"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/progessText2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:background="@color/white"
+            android:rotation="-60"
+            android:text="todavía no"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="15dp"
+            app:layout_constraintBottom_toTopOf="@id/progessImage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.163"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/TopLinearLayout"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/progessText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:background="@color/white"
+            android:text="IN PROGRESS..."
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="30dp"
+            app:layout_constraintBottom_toTopOf="@id/progessImage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.725"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/TopLinearLayout" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
