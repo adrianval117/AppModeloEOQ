@@ -36,51 +36,22 @@
         <!--SPLIT-->
         <!--SPLIT-->
 
-        <ImageView
-            android:id="@+id/progessImage"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="100dp"
-            android:src="@drawable/under2"
-            app:layout_constraintTop_toBottomOf="@+id/progessText"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <TextView
-            android:id="@+id/progessText2"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/graphButton"
+            android:layout_width="114dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
-            android:background="@color/white"
-            android:rotation="-60"
-            android:text="todavía no"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="15dp"
-            app:layout_constraintBottom_toTopOf="@id/progessImage"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.163"
+            android:layout_gravity="center"
+            android:layout_marginTop="640dp"
+            android:backgroundTint="@color/principalColor"
+            android:elevation="4dp"
+            android:text="@string/button_graph_text"
+            android:textColor="@color/white"
+            android:translationZ="10dp"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintTop_toBottomOf="@+id/TopLinearLayout"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/TopLinearLayout"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <TextView
-            android:id="@+id/progessText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
-            android:background="@color/white"
-            android:text="IN PROGRESS..."
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="30dp"
-            app:layout_constraintBottom_toTopOf="@id/progessImage"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.725"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/TopLinearLayout" />
+            tools:ignore="MissingConstraints" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

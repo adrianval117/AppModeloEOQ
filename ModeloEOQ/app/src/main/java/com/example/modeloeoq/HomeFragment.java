@@ -162,14 +162,14 @@ public class HomeFragment extends Fragment {
         ResultadoPeriodoEOQText.setText("");
     }
 
-    public void chekModeiC(){
+    public void chekModeiC() {
         //If the no C mode is switched, set C = 0 and change the label to H ($) mode
-        if(isCheckedOn){
+        if (isCheckedOn) {
             CInput.setText("0");
             CInput.setFocusable(false);
             tasaMantenimientoLabel.setText("Costo de mantenimiento anual");
             iInput.setHint("H ($)");
-        }else{
+        } else {
             CInput.setText("");
             CInput.setFocusableInTouchMode(true);
             tasaMantenimientoLabel.setText("Tasa de mantenimiento (%)");
@@ -188,9 +188,9 @@ public class HomeFragment extends Fragment {
 
         if (dInput_str.matches("") || sInput_str.matches("") ||
                 CInput_str.matches("") || iInput_str.matches("") ||
-                diasInput_str.matches("") || LInput_str.matches("")){
+                diasInput_str.matches("") || LInput_str.matches("")) {
             Toast.makeText(getActivity(), "Se deben llenar todos los campos", Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
             Double D = Double.parseDouble(dInput_str);
             Double S = Double.parseDouble(sInput_str);
             Double C = Double.parseDouble(CInput_str);
@@ -211,25 +211,26 @@ public class HomeFragment extends Fragment {
         In addition, the field associated with the maintenance rate (i) must be changed
         to the cost of the maintenance (H) in monetary units*/
         Double H;
-        if(isCheckedOn){
+        if (isCheckedOn) {
             H = i;
-        }else{
-            H = C*i;
-            Log.e("", ""+H);
+        } else {
+            H = C * i;
+            Log.e("", "" + H);
         }
 
         //Left columns results
-        Double EOQ = Math.ceil(Math.pow((2*D*S)/H, 0.5));
-        Double ordenes = D*S/EOQ;
-        Double mant = EOQ*H/2;
-        Double TRC = D*C + mant + ordenes;
+        Double EOQ = Math.ceil(Math.pow((2 * D * S) / H, 0.5));
+        Double ordenes = D * S / EOQ;
+        Double mant = EOQ * H / 2;
+        Double TRC = D * C + mant + ordenes;
 
         //Right columns results
-        Double N = Math.ceil(D/EOQ);
-        Double T = Math.ceil(diasLaborales/N);;
-        Double d = Math.ceil(D/diasLaborales);
-        Double R = Math.ceil(d*L);
-        Double periodoEOQ = EOQ/d;
+        Double N = Math.ceil(D / EOQ);
+        Double T = Math.ceil(diasLaborales / N);
+        ;
+        Double d = Math.ceil(D / diasLaborales);
+        Double R = Math.ceil(d * L);
+        Double periodoEOQ = EOQ / d;
 
         //Convert answers to strings
         //inputs
@@ -253,21 +254,21 @@ public class HomeFragment extends Fragment {
         String periodoEOQ_str = Integer.toString(periodoEOQ.intValue());
 
         //Show results in the TextViews
-        ResultadoEOQText.setText(HtmlCompat.fromHtml(EOQ_str+" unds", HtmlCompat.FROM_HTML_MODE_LEGACY
+        ResultadoEOQText.setText(HtmlCompat.fromHtml(EOQ_str + " unds", HtmlCompat.FROM_HTML_MODE_LEGACY
         ));
-        ResultadoOrdenesText.setText(HtmlCompat.fromHtml("$"+ordenes_str, HtmlCompat.FROM_HTML_MODE_LEGACY
+        ResultadoOrdenesText.setText(HtmlCompat.fromHtml("$" + ordenes_str, HtmlCompat.FROM_HTML_MODE_LEGACY
         ));
-        ResultadoCostoMantenimientoText.setText(HtmlCompat.fromHtml("$"+mant_str, HtmlCompat.FROM_HTML_MODE_LEGACY
+        ResultadoCostoMantenimientoText.setText(HtmlCompat.fromHtml("$" + mant_str, HtmlCompat.FROM_HTML_MODE_LEGACY
         ));
-        ResultadoTRCText.setText(HtmlCompat.fromHtml("$"+TRC_str, HtmlCompat.FROM_HTML_MODE_LEGACY
+        ResultadoTRCText.setText(HtmlCompat.fromHtml("$" + TRC_str, HtmlCompat.FROM_HTML_MODE_LEGACY
         ));
-        ResultadoNText.setText(HtmlCompat.fromHtml(N_str+" unds", HtmlCompat.FROM_HTML_MODE_LEGACY
+        ResultadoNText.setText(HtmlCompat.fromHtml(N_str + " unds", HtmlCompat.FROM_HTML_MODE_LEGACY
         ));
-        ResultadoTText.setText(HtmlCompat.fromHtml(T_str+" días", HtmlCompat.FROM_HTML_MODE_LEGACY
+        ResultadoTText.setText(HtmlCompat.fromHtml(T_str + " días", HtmlCompat.FROM_HTML_MODE_LEGACY
         ));
-        ResultadoRText.setText(HtmlCompat.fromHtml(R_str+" unds", HtmlCompat.FROM_HTML_MODE_LEGACY
+        ResultadoRText.setText(HtmlCompat.fromHtml(R_str + " unds", HtmlCompat.FROM_HTML_MODE_LEGACY
         ));
-        ResultadoPeriodoEOQText.setText(HtmlCompat.fromHtml(periodoEOQ_str+" días", HtmlCompat.FROM_HTML_MODE_LEGACY
+        ResultadoPeriodoEOQText.setText(HtmlCompat.fromHtml(periodoEOQ_str + " días", HtmlCompat.FROM_HTML_MODE_LEGACY
         ));
 
         //Get current date to save record in the CSV
@@ -278,9 +279,9 @@ public class HomeFragment extends Fragment {
         //Save inputs and results into a list
         List<String> dataList = new ArrayList<String>();
         dataList.add(currentDatetime + ";" + dInput_str + ";" + sInput_str + ";" + CInput_str + ";" //Inputs
-                    +iInput_str + ";" + hInput_str + ";" + diasInput_str + ";" + LInput_str + ";"
-                    +EOQ_str + ";" + ordenes_str + ";" + mant_str + ";" + TRC_str + ";" //Outputs
-                    +N_str + ";" + T_str + ";" + R_str + ";" + periodoEOQ_str);
+                + iInput_str + ";" + hInput_str + ";" + diasInput_str + ";" + LInput_str + ";"
+                + EOQ_str + ";" + ordenes_str + ";" + mant_str + ";" + TRC_str + ";" //Outputs
+                + N_str + ";" + T_str + ";" + R_str + ";" + periodoEOQ_str);
 
         if (!isExternalStorageAvailable() || isExternalStorageReadOnly()) {
             Log.e("TAG", "External storage not available or it's just readeble");
@@ -290,6 +291,9 @@ public class HomeFragment extends Fragment {
         createFiles();
         boolean isFileCreated = createFiles();
         writeCSV(dataList);
+
+
+        //To read the csv file
     }
 
 
@@ -338,10 +342,10 @@ public class HomeFragment extends Fragment {
             FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
             BufferedWriter bw = new BufferedWriter(fw);
             String a, b;
-            if(isCheckedOn){
+            if (isCheckedOn) {
                 a = "N/A";
                 b = "N/A";
-            }else{
+            } else {
                 a = dataList.get(0).split(";")[3];
                 b = dataList.get(0).split(";")[4];
             }
