@@ -162,7 +162,7 @@ public class HomeFragment extends Fragment {
         ResultadoPeriodoEOQText.setText("");
     }
 
-    public void chekModeiC() {
+    private void chekModeiC() {
         //If the no C mode is switched, set C = 0 and change the label to H ($) mode
         if (isCheckedOn) {
             CInput.setText("0");
@@ -177,7 +177,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    public void checkEditsFields() {
+    private void checkEditsFields() {
         //Getting values from the inputs
         String dInput_str = DInput.getText().toString();
         String sInput_str = SInput.getText().toString();
@@ -227,7 +227,6 @@ public class HomeFragment extends Fragment {
         //Right columns results
         Double N = Math.ceil(D / EOQ);
         Double T = Math.ceil(diasLaborales / N);
-        ;
         Double d = Math.ceil(D / diasLaborales);
         Double R = Math.ceil(d * L);
         Double periodoEOQ = EOQ / d;
@@ -291,9 +290,6 @@ public class HomeFragment extends Fragment {
         createFiles();
         boolean isFileCreated = createFiles();
         writeCSV(dataList);
-
-
-        //To read the csv file
     }
 
 
