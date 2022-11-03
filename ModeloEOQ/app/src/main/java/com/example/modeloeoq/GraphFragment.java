@@ -56,7 +56,8 @@ import android.graphics.Color;
 
 public class GraphFragment extends Fragment {
 
-    private String csv = "/storage/emulated/0/Android/data/com.example.modeloeoq/data/data.csv";
+    //private String csv = "/storage/emulated/0/Android/data/com.example.modeloeoq/data/data.csv";
+    private String csv = "/storage/emulated/0/Documents/AppModeloEOQ/data/registros.csv";
     LineChart lineChart;
 
     public GraphFragment() {

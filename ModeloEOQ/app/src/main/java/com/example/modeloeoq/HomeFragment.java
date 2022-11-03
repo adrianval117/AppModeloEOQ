@@ -3,10 +3,12 @@ package com.example.modeloeoq;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.Fragment;
@@ -37,6 +39,10 @@ import org.apache.poi.ss.usermodel.Workbook;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -70,8 +76,7 @@ public class HomeFragment extends Fragment {
     Switch cancelIC;
     Boolean isCheckedOn;
     private HomeFragment ExcelUtils;
-    private String csv = "/storage/emulated/0/Android/data/com.example.modeloeoq/data/data.csv";
-
+    private String csv = "/storage/emulated/0/Documents/AppModeloEOQ/data/registros.csv";
 
     public HomeFragment() {
         // Required empty public constructor
@@ -89,6 +94,7 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -177,6 +183,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void checkEditsFields() {
         //Getting values from the inputs
         String dInput_str = DInput.getText().toString();
@@ -201,6 +208,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void calulateEOQ(Double D, Double S, Double C, Double i, Double diasLaborales, Double L) {
 
         //If it makit till here, then it's ready to calculate
@@ -297,9 +305,12 @@ public class HomeFragment extends Fragment {
      * METHOD TO SAVE USING CSV
      */
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private boolean createFiles() {
         boolean isSucces = false;
-        File outFile = new File(getActivity().getExternalFilesDir(null).getParent(), "data");
+        Path path = Paths.get(csv).getParent();
+        Log.e("HEEEEEEEY", ""+path);
+        File outFile = new File(String.valueOf(path));
         try {
             if (!outFile.exists()) {
                 outFile.mkdirs();
